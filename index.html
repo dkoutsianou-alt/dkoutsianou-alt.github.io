@@ -1,0 +1,230 @@
+<!doctype html>
+<html lang="el">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Το Εργαστήριο των Χρωμάτων</title>
+<style>
+*{box-sizing:border-box}
+body{margin:0;font-family:system-ui,sans-serif;background:#fffaf1;color:#19172c}
+main{max-width:1050px;margin:auto;padding:22px}
+header{text-align:center;margin-bottom:22px}
+h1{font-size:clamp(2rem,6vw,4rem);margin:5px;line-height:1}
+.subtitle{color:#655e75;font-size:1.1rem}
+.card{background:white;border:2px solid #ddd7eb;border-radius:24px;padding:22px;margin:18px 0;box-shadow:0 10px 25px #31265d18}
+h2{margin-top:0}
+.colors{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
+.color{background:white;border:3px solid #ddd;border-radius:18px;padding:15px;font-weight:bold;font-size:1rem}
+.color span{display:block;width:58px;height:58px;border-radius:50%;margin:0 auto 8px}
+.color.selected{outline:5px solid #19172c}
+.red span{background:#e63840}
+.yellow span{background:#f6d62d}
+.blue span{background:#2879ce}
+.mix{display:flex;justify-content:center;align-items:center;gap:12px;margin:25px 0;font-size:2rem;font-weight:bold}
+.cup{width:95px;height:95px;border-radius:50%;background:#eeeaf4;border:5px solid white;outline:1px solid #ccc;display:grid;place-items:center;text-align:center;font-size:.8rem}
+.action{display:block;margin:12px auto;border:0;border-radius:15px;background:#19172c;color:white;padding:14px 24px;font-weight:bold;font-size:1.05rem}
+.feedback{text-align:center;min-height:30px;font-weight:bold;font-size:1.05rem}
+.score{text-align:center;color:#625b71;font-weight:bold}
+.wheel{display:block;width:min(330px,90%);margin:auto}
+.pairs{text-align:center;line-height:2;font-weight:bold}
+.question{text-align:center;font-size:1.3rem;font-weight:bold;margin:20px}
+.choices{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.choice{border:2px solid #ddd7eb;border-radius:14px;background:white;padding:14px;font-weight:bold}
+.good{background:#dff7e6!important;border-color:#278949!important}
+.bad{background:#ffe0e0!important;border-color:#c9363f!important}
+.mission{background:linear-gradient(120deg,#fff0ba,#efe3ff,#ddebff);border-radius:20px;padding:24px;text-align:center;font-size:1.3rem;font-weight:bold;min-height:110px;display:grid;place-items:center}
+@media(max-width:600px){main{padding:12px}.card{padding:17px}.colors{gap:7px}.color{padding:10px 4px}.cup{width:72px;height:72px}.mix{gap:7px}.choices{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+<main>
+<header>
+<div>Γ΄ & Δ΄ ΔΗΜΟΤΙΚΟΥ • ΕΙΚΑΣΤΙΚΑ</div>
+<h1>🎨 Το Εργαστήριο των Χρωμάτων</h1>
+<p class="subtitle">Προβλέπω, αναμειγνύω και ανακαλύπτω!</p>
+</header>
+
+<section class="card">
+<h2>1. Η μηχανή των μίξεων</h2>
+<p>Διάλεξε δύο διαφορετικά βασικά χρώματα. Πριν πατήσεις το κουμπί, πες την πρόβλεψή σου!</p>
+
+<div class="colors">
+<button class="color red" data-c="red"><span></span>Κόκκινο</button>
+<button class="color yellow" data-c="yellow"><span></span>Κίτρινο</button>
+<button class="color blue" data-c="blue"><span></span>Μπλε</button>
+</div>
+
+<div class="mix">
+<div class="cup" id="a"></div>+
+<div class="cup" id="b"></div>=
+<div class="cup" id="result"></div>
+</div>
+
+<button class="action" id="mixButton">Ανάμειξε!</button>
+<div class="feedback" id="mixMessage">Διάλεξε δύο χρώματα.</div>
+<div class="score" id="discoveries">Ανακαλύψεις: 0/3</div>
+</section>
+
+<section class="card">
+<h2>2. Ο χρωματικός κύκλος</h2>
+
+<svg class="wheel" viewBox="0 0 300 300">
+<path d="M150 150L150 20A130 130 0 0 1 263 85Z" fill="#f6d62d"/>
+<path d="M150 150L263 85A130 130 0 0 1 263 215Z" fill="#f08a2b"/>
+<path d="M150 150L263 215A130 130 0 0 1 150 280Z" fill="#e63840"/>
+<path d="M150 150L150 280A130 130 0 0 1 37 215Z" fill="#8750a9"/>
+<path d="M150 150L37 215A130 130 0 0 1 37 85Z" fill="#2879ce"/>
+<path d="M150 150L37 85A130 130 0 0 1 150 20Z" fill="#3aa25c"/>
+<circle cx="150" cy="150" r="52" fill="white"/>
+<text x="150" y="146" text-anchor="middle" font-size="14" font-weight="bold">ΧΡΩΜΑΤΙΚΟΣ</text>
+<text x="150" y="166" text-anchor="middle" font-size="14" font-weight="bold">ΚΥΚΛΟΣ</text>
+</svg>
+
+<div class="pairs">
+🔴 Κόκκινο ↔ 🟢 Πράσινο<br>
+🔵 Μπλε ↔ 🟠 Πορτοκαλί<br>
+🟡 Κίτρινο ↔ 🟣 Μωβ
+</div>
+</section>
+
+<section class="card">
+<h2>3. Βρες το συμπληρωματικό!</h2>
+<div class="question" id="question"></div>
+<div class="choices" id="choices"></div>
+<div class="feedback" id="quizMessage"></div>
+<button class="action" id="next">Επόμενη ερώτηση</button>
+<div class="score" id="quizScore">Σκορ: 0/0</div>
+</section>
+
+<section class="card">
+<h2>4. Εικαστική αποστολή</h2>
+<div class="mission" id="mission">Είστε έτοιμοι για την πρώτη αποστολή;</div>
+<button class="action" id="missionButton">✨ Νέα αποστολή</button>
+</section>
+</main>
+
+<script>
+const hex={red:"#e63840",yellow:"#f6d62d",blue:"#2879ce"};
+const names={red:"Κόκκινο",yellow:"Κίτρινο",blue:"Μπλε"};
+const mixes={
+"red-yellow":["Πορτοκαλί","#f08a2b"],
+"blue-yellow":["Πράσινο","#3aa25c"],
+"blue-red":["Μωβ","#8750a9"]
+};
+
+let selected=[],found=new Set();
+
+document.querySelectorAll(".color").forEach(button=>{
+ button.onclick=()=>{
+  const color=button.dataset.c;
+
+  if(selected.includes(color)){
+   selected=selected.filter(x=>x!==color);
+   button.classList.remove("selected");
+  }else{
+   if(selected.length===2){
+    const old=selected.shift();
+    document.querySelector('[data-c="'+old+'"]').classList.remove("selected");
+   }
+   selected.push(color);
+   button.classList.add("selected");
+  }
+
+  ["a","b"].forEach((id,i)=>{
+   const cup=document.getElementById(id);
+   cup.style.background=selected[i]?hex[selected[i]]:"#eeeaf4";
+   cup.textContent=selected[i]?names[selected[i]]:"";
+  });
+
+  result.style.background="#eeeaf4";
+  result.textContent="";
+  mixMessage.textContent=selected.length===2?
+  "Τι χρώμα προβλέπεις;":"Διάλεξε δύο χρώματα.";
+ };
+});
+
+mixButton.onclick=()=>{
+ if(selected.length!==2){
+  mixMessage.textContent="Χρειάζομαι δύο διαφορετικά χρώματα!";
+  return;
+ }
+
+ const key=[...selected].sort().join("-");
+ const mixture=mixes[key];
+
+ result.style.background=mixture[1];
+ result.textContent=mixture[0];
+ found.add(key);
+
+ mixMessage.textContent=
+ names[selected[0]]+" + "+names[selected[1]]+" = "+mixture[0]+"!";
+ discoveries.textContent="Ανακαλύψεις: "+found.size+"/3";
+};
+
+const questions=[
+["Κόκκινο","Πράσινο",["Πράσινο","Μωβ","Πορτοκαλί","Κίτρινο"]],
+["Μπλε","Πορτοκαλί",["Μωβ","Πορτοκαλί","Κόκκινο","Πράσινο"]],
+["Κίτρινο","Μωβ",["Μπλε","Πορτοκαλί","Μωβ","Πράσινο"]]
+];
+
+let q=0,correct=0,total=0;
+
+function showQuestion(){
+ const item=questions[q];
+ question.textContent="Ποιο είναι το συμπληρωματικό του "+item[0]+";";
+ choices.innerHTML="";
+ quizMessage.textContent="";
+
+ item[2].forEach(answer=>{
+  const button=document.createElement("button");
+  button.className="choice";
+  button.textContent=answer;
+
+  button.onclick=()=>{
+   if(choices.dataset.locked==="yes") return;
+   choices.dataset.locked="yes";
+   total++;
+
+   if(answer===item[1]){
+    correct++;
+    button.classList.add("good");
+    quizMessage.textContent="✅ Σωστά!";
+   }else{
+    button.classList.add("bad");
+    [...choices.children]
+    .find(x=>x.textContent===item[1])
+    .classList.add("good");
+    quizMessage.textContent="Η σωστή απάντηση είναι "+item[1]+".";
+   }
+
+   quizScore.textContent="Σκορ: "+correct+"/"+total;
+  };
+
+  choices.appendChild(button);
+ });
+
+ choices.dataset.locked="no";
+}
+
+next.onclick=()=>{
+ q=(q+1)%questions.length;
+ showQuestion();
+};
+
+showQuestion();
+
+const missions=[
+"Φτιάξε ένα φανταστικό πλάσμα μόνο με ΚΙΤΡΙΝΟ και ΜΩΒ.",
+"Δημιούργησε μια εικόνα μόνο με ΜΠΛΕ και ΠΟΡΤΟΚΑΛΙ.",
+"Χρησιμοποίησε ΚΟΚΚΙΝΟ και ΠΡΑΣΙΝΟ και κάνε ένα στοιχείο να ξεχωρίζει.",
+"Πάρε μόνο τα τρία βασικά χρώματα και δημιούργησε όσες περισσότερες μίξεις μπορείς.",
+"Ζωγράφισε έναν κήπο χρησιμοποιώντας βασικά και δευτερογενή χρώματα."
+];
+
+missionButton.onclick=()=>{
+ mission.textContent="🖌️ "+
+ missions[Math.floor(Math.random()*missions.length)];
+};
+</script>
+</body>
+</html>
