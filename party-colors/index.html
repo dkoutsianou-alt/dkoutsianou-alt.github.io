@@ -1,0 +1,564 @@
+<!doctype html>
+<html lang="el">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Το Πάρτι των Χρωμάτων</title>
+
+<style>
+*{box-sizing:border-box}
+
+body{
+margin:0;
+font-family:system-ui,-apple-system,sans-serif;
+color:#20203a;
+background:
+radial-gradient(circle at 10% 5%,#ffd83d 0 7%,transparent 8%),
+radial-gradient(circle at 90% 7%,#ff5d68 0 6%,transparent 7%),
+radial-gradient(circle at 8% 92%,#4285e8 0 6%,transparent 7%),
+#fff9ed;
+min-height:100vh
+}
+
+main{
+width:min(950px,94%);
+margin:auto;
+padding:18px 0 50px
+}
+
+header{
+text-align:center;
+padding:15px
+}
+
+h1{
+font-size:clamp(2.2rem,7vw,4.5rem);
+line-height:1;
+margin:8px 0
+}
+
+.subtitle{
+font-size:1.15rem;
+font-weight:700
+}
+
+.tabs{
+display:flex;
+gap:8px;
+overflow:auto;
+margin:10px 0 18px
+}
+
+.tab{
+flex:1;
+min-width:150px;
+border:3px solid #20203a;
+background:white;
+padding:13px 8px;
+border-radius:18px;
+font-weight:900;
+font-size:1rem
+}
+
+.tab.active{
+background:#20203a;
+color:white
+}
+
+.page{display:none}
+.page.active{display:block}
+
+.card{
+background:white;
+border:3px solid #20203a;
+border-radius:28px;
+padding:clamp(16px,4vw,30px);
+box-shadow:8px 8px 0 #20203a;
+margin-bottom:24px
+}
+
+h2{
+text-align:center;
+font-size:clamp(1.6rem,5vw,2.6rem);
+margin:0 0 8px
+}
+
+.help{
+text-align:center;
+font-weight:700;
+font-size:1.05rem;
+margin-bottom:20px
+}
+
+.target{
+width:150px;
+height:150px;
+border-radius:50%;
+margin:18px auto;
+border:8px solid white;
+outline:4px solid #20203a;
+display:grid;
+place-items:center;
+font-size:4rem
+}
+
+.color-grid{
+display:grid;
+grid-template-columns:repeat(3,1fr);
+gap:12px
+}
+
+.color-button{
+min-height:105px;
+border:4px solid #20203a;
+border-radius:22px;
+background:white;
+font-size:1.05rem;
+font-weight:900;
+box-shadow:4px 4px 0 #20203a;
+transition:.15s
+}
+
+.color-button:active{
+transform:translate(4px,4px);
+box-shadow:none
+}
+
+.circle{
+display:block;
+width:55px;
+height:55px;
+border-radius:50%;
+margin:0 auto 7px;
+border:2px solid #0002
+}
+
+.message{
+min-height:44px;
+text-align:center;
+font-weight:900;
+font-size:1.3rem;
+margin-top:18px
+}
+
+.action{
+display:block;
+margin:16px auto 0;
+border:3px solid #20203a;
+border-radius:18px;
+padding:14px 24px;
+background:#ffd83d;
+font-size:1.1rem;
+font-weight:900;
+box-shadow:4px 4px 0 #20203a
+}
+
+.mix-row{
+display:flex;
+align-items:center;
+justify-content:center;
+gap:10px;
+margin:25px 0;
+font-size:2rem;
+font-weight:900
+}
+
+.paint{
+width:105px;
+height:105px;
+border-radius:50%;
+border:5px solid white;
+outline:3px solid #20203a;
+background:#eee;
+display:grid;
+place-items:center;
+text-align:center;
+font-size:.8rem
+}
+
+.mix-buttons{
+display:grid;
+grid-template-columns:repeat(3,1fr);
+gap:10px
+}
+
+.mix-color{
+border:4px solid #20203a;
+border-radius:20px;
+background:white;
+padding:12px 4px;
+font-weight:900;
+font-size:1rem
+}
+
+.mix-color.selected{
+outline:6px solid #ffd83d
+}
+
+.big-mission{
+min-height:190px;
+border:4px dashed #20203a;
+border-radius:25px;
+display:grid;
+place-items:center;
+text-align:center;
+padding:25px;
+font-size:clamp(1.4rem,5vw,2.2rem);
+font-weight:900;
+background:linear-gradient(135deg,#fff0a5,#ffdce6,#dcebff)
+}
+
+.stars{
+text-align:center;
+font-size:2rem;
+min-height:45px
+}
+
+.confetti{
+position:fixed;
+top:-30px;
+font-size:2rem;
+animation:fall 1.8s linear forwards;
+pointer-events:none
+}
+
+@keyframes fall{
+to{transform:translateY(110vh) rotate(600deg)}
+}
+
+@media(max-width:600px){
+.color-grid{grid-template-columns:repeat(2,1fr)}
+.color-button{min-height:95px}
+.paint{width:75px;height:75px}
+.mix-row{gap:6px}
+.card{box-shadow:5px 5px 0 #20203a}
+}
+</style>
+</head>
+
+<body>
+<main>
+
+<header>
+<div>Α΄ & Β΄ ΔΗΜΟΤΙΚΟΥ • ΕΙΚΑΣΤΙΚΑ</div>
+<h1>🎉 Το Πάρτι των Χρωμάτων</h1>
+<div class="subtitle">Παίζω • Ανακαλύπτω • Ζωγραφίζω</div>
+</header>
+
+<nav class="tabs">
+<button class="tab active" data-page="find">🔍 Βρες το!</button>
+<button class="tab" data-page="mix">🪄 Μαγική μίξη</button>
+<button class="tab" data-page="mission">🎨 Αποστολή</button>
+</nav>
+
+<section id="find" class="page active">
+<div class="card">
+
+<h2>Ποιο χρώμα ψάχνουμε;</h2>
+<p class="help">Κοίτα τον μεγάλο κύκλο και πάτησε το ίδιο χρώμα.</p>
+
+<div id="target" class="target">👀</div>
+
+<div class="color-grid">
+<button class="color-button" data-color="red">
+<span class="circle" style="background:#ef3d48"></span>
+Κόκκινο
+</button>
+
+<button class="color-button" data-color="yellow">
+<span class="circle" style="background:#f8d52f"></span>
+Κίτρινο
+</button>
+
+<button class="color-button" data-color="blue">
+<span class="circle" style="background:#3280d9"></span>
+Μπλε
+</button>
+
+<button class="color-button" data-color="green">
+<span class="circle" style="background:#3cad63"></span>
+Πράσινο
+</button>
+
+<button class="color-button" data-color="orange">
+<span class="circle" style="background:#f28c2d"></span>
+Πορτοκαλί
+</button>
+
+<button class="color-button" data-color="purple">
+<span class="circle" style="background:#9255ac"></span>
+Μωβ
+</button>
+</div>
+
+<div id="findMessage" class="message">
+Πάτησε «Νέο χρώμα»!
+</div>
+
+<div id="stars" class="stars">☆☆☆☆☆</div>
+
+<button id="newColor" class="action">
+🎲 Νέο χρώμα
+</button>
+
+</div>
+</section>
+
+<section id="mix" class="page">
+<div class="card">
+
+<h2>Η μαγική κατσαρόλα</h2>
+<p class="help">
+Διάλεξε δύο βασικά χρώματα και ανακάλυψε τι θα γεννηθεί!
+</p>
+
+<div class="mix-buttons">
+<button class="mix-color" data-mix="red">
+<span class="circle" style="background:#ef3d48"></span>
+Κόκκινο
+</button>
+
+<button class="mix-color" data-mix="yellow">
+<span class="circle" style="background:#f8d52f"></span>
+Κίτρινο
+</button>
+
+<button class="mix-color" data-mix="blue">
+<span class="circle" style="background:#3280d9"></span>
+Μπλε
+</button>
+</div>
+
+<div class="mix-row">
+<div id="paint1" class="paint"></div>
++
+<div id="paint2" class="paint"></div>
+=
+<div id="paintResult" class="paint">❓</div>
+</div>
+
+<button id="magicButton" class="action">
+🪄 Κάνε τη μαγεία!
+</button>
+
+<div id="mixMessage" class="message">
+Διάλεξε δύο χρώματα.
+</div>
+
+</div>
+</section>
+
+<section id="mission" class="page">
+<div class="card">
+
+<h2>Η ζωγραφική αποστολή</h2>
+<p class="help">
+Πάτησε το κουμπί και δες τι θα ζωγραφίσεις!
+</p>
+
+<div id="missionBox" class="big-mission">
+Είστε έτοιμοι;
+</div>
+
+<button id="missionButton" class="action">
+🎁 Άνοιξε νέα αποστολή
+</button>
+
+</div>
+</section>
+
+</main>
+
+<script>
+const colors={
+red:{name:"ΚΟΚΚΙΝΟ",hex:"#ef3d48"},
+yellow:{name:"ΚΙΤΡΙΝΟ",hex:"#f8d52f"},
+blue:{name:"ΜΠΛΕ",hex:"#3280d9"},
+green:{name:"ΠΡΑΣΙΝΟ",hex:"#3cad63"},
+orange:{name:"ΠΟΡΤΟΚΑΛΙ",hex:"#f28c2d"},
+purple:{name:"ΜΩΒ",hex:"#9255ac"}
+};
+
+document.querySelectorAll(".tab").forEach(tab=>{
+tab.onclick=()=>{
+document.querySelectorAll(".tab,.page")
+.forEach(element=>element.classList.remove("active"));
+
+tab.classList.add("active");
+document.getElementById(tab.dataset.page)
+.classList.add("active");
+};
+});
+
+let wanted="";
+let points=0;
+
+function chooseNewColor(){
+const keys=Object.keys(colors);
+wanted=keys[Math.floor(Math.random()*keys.length)];
+
+const target=document.getElementById("target");
+target.style.background=colors[wanted].hex;
+target.textContent="";
+
+document.getElementById("findMessage").textContent=
+"Βρες το "+colors[wanted].name+"!";
+}
+
+document.getElementById("newColor").onclick=chooseNewColor;
+
+document.querySelectorAll(".color-button").forEach(button=>{
+button.onclick=()=>{
+if(!wanted){
+document.getElementById("findMessage").textContent=
+"Πρώτα πάτησε «Νέο χρώμα»!";
+return;
+}
+
+if(button.dataset.color===wanted){
+points++;
+document.getElementById("findMessage").textContent=
+"Μπράβο! Το βρήκες! 🌟";
+
+document.getElementById("stars").textContent=
+"★".repeat(Math.min(points,5))+
+"☆".repeat(Math.max(0,5-points));
+
+celebrate();
+
+setTimeout(chooseNewColor,900);
+}else{
+document.getElementById("findMessage").textContent=
+"Για ξανακοίτα! 👀";
+}
+};
+});
+
+let selected=[];
+
+document.querySelectorAll(".mix-color").forEach(button=>{
+button.onclick=()=>{
+const color=button.dataset.mix;
+
+if(selected.includes(color)){
+selected=selected.filter(item=>item!==color);
+button.classList.remove("selected");
+}else{
+if(selected.length===2){
+const old=selected.shift();
+
+document.querySelector(
+'[data-mix="'+old+'"]'
+).classList.remove("selected");
+}
+
+selected.push(color);
+button.classList.add("selected");
+}
+
+showPaints();
+};
+});
+
+function showPaints(){
+const one=document.getElementById("paint1");
+const two=document.getElementById("paint2");
+const result=document.getElementById("paintResult");
+
+one.style.background=selected[0]?
+colors[selected[0]].hex:"#eeeeee";
+
+two.style.background=selected[1]?
+colors[selected[1]].hex:"#eeeeee";
+
+one.textContent=selected[0]?
+colors[selected[0]].name:"";
+
+two.textContent=selected[1]?
+colors[selected[1]].name:"";
+
+result.style.background="#eeeeee";
+result.textContent="❓";
+
+document.getElementById("mixMessage").textContent=
+selected.length===2?
+"Τι χρώμα πιστεύεις ότι θα γίνει;":
+"Διάλεξε δύο χρώματα.";
+}
+
+const recipes={
+"red-yellow":["ΠΟΡΤΟΚΑΛΙ","#f28c2d"],
+"blue-yellow":["ΠΡΑΣΙΝΟ","#3cad63"],
+"blue-red":["ΜΩΒ","#9255ac"]
+};
+
+document.getElementById("magicButton").onclick=()=>{
+if(selected.length!==2){
+document.getElementById("mixMessage").textContent=
+"Χρειάζομαι δύο διαφορετικά χρώματα!";
+return;
+}
+
+const key=[...selected].sort().join("-");
+const answer=recipes[key];
+
+const result=document.getElementById("paintResult");
+result.style.background=answer[1];
+result.textContent=answer[0];
+
+document.getElementById("mixMessage").textContent=
+"Τα κατάφερες! Γεννήθηκε το "+answer[0]+"!";
+
+celebrate();
+};
+
+const missions=[
+"Ζωγράφισε ένα ΚΙΤΡΙΝΟ τέρας με τρία μάτια! 👾",
+"Φτιάξε έναν κήπο μόνο με ΚΟΚΚΙΝΟ, ΚΙΤΡΙΝΟ και ΜΠΛΕ. 🌷",
+"Βρες κάτι ΜΠΛΕ στην τάξη και ζωγράφισέ το! 🔍",
+"Ζωγράφισε ένα ΠΟΡΤΟΚΑΛΙ ζώο που δεν υπάρχει! 🐾",
+"Φτιάξε ένα αστείο πρόσωπο με κύκλους και πολλά χρώματα! 😀",
+"Ζωγράφισε μια βροχή από χρωματιστές τελείες! 🌧️",
+"Φτιάξε ένα ΜΩΒ σπίτι για έναν μικρό δράκο! 🐉",
+"Ζωγράφισε τη μουσική με γραμμές και χρώματα! 🎵",
+"Διάλεξε το αγαπημένο σου χρώμα και κάνε ένα τεράστιο λουλούδι! 🌼"
+];
+
+document.getElementById("missionButton").onclick=()=>{
+const mission=missions[
+Math.floor(Math.random()*missions.length)
+];
+
+document.getElementById("missionBox").textContent=mission;
+celebrate();
+};
+
+function celebrate(){
+const symbols=["●","■","▲","★"];
+const shades=[
+"#ef3d48","#f8d52f","#3280d9",
+"#3cad63","#f28c2d","#9255ac"
+];
+
+for(let i=0;i<24;i++){
+const piece=document.createElement("div");
+piece.className="confetti";
+piece.textContent=symbols[
+Math.floor(Math.random()*symbols.length)
+];
+
+piece.style.left=Math.random()*100+"vw";
+piece.style.color=shades[
+Math.floor(Math.random()*shades.length)
+];
+
+piece.style.animationDelay=Math.random()*.4+"s";
+document.body.appendChild(piece);
+
+setTimeout(()=>piece.remove(),2300);
+}
+}
+</script>
+
+</body>
+</html>
