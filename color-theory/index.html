@@ -1,0 +1,780 @@
+<!doctype html>
+<html lang="el">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Ο Κώδικας των Χρωμάτων</title>
+
+<style>
+*{box-sizing:border-box}
+
+:root{
+--ink:#172037;
+--paper:#fffdf7;
+--line:#d8dce8
+}
+
+body{
+margin:0;
+font-family:system-ui,-apple-system,"Segoe UI",sans-serif;
+background:
+radial-gradient(circle at 5% 2%,#ffe54c55,transparent 18%),
+radial-gradient(circle at 95% 4%,#ec465455,transparent 18%),
+#f8f7fc;
+color:var(--ink)
+}
+
+main{
+width:min(1100px,94%);
+margin:auto;
+padding:22px 0 60px
+}
+
+header{text-align:center;padding:20px 5px}
+
+.eyebrow{
+font-weight:900;
+letter-spacing:.08em;
+color:#626a7e
+}
+
+h1{
+font-size:clamp(2.2rem,6vw,4.5rem);
+line-height:1;
+margin:8px 0
+}
+
+.subtitle{font-size:1.12rem;font-weight:650}
+
+.tabs{
+display:flex;
+gap:8px;
+overflow:auto;
+padding:4px 2px 16px
+}
+
+.tab{
+min-width:155px;
+flex:1;
+border:2px solid var(--ink);
+border-radius:16px;
+background:white;
+padding:13px 10px;
+font-weight:900;
+font-size:.98rem
+}
+
+.tab.active{background:var(--ink);color:white}
+
+.page{display:none}
+.page.active{display:block}
+
+.card{
+background:#fff;
+border:2px solid var(--line);
+border-radius:24px;
+padding:clamp(18px,3vw,30px);
+margin-bottom:18px;
+box-shadow:0 12px 30px #1b254217
+}
+
+h2{
+font-size:clamp(1.5rem,4vw,2.3rem);
+margin:0 0 10px
+}
+
+h3{margin-bottom:7px}
+
+.note{line-height:1.6;color:#525a6d}
+
+.grid2{
+display:grid;
+grid-template-columns:1fr 1fr;
+gap:18px
+}
+
+.wheel{
+display:block;
+width:min(430px,95%);
+margin:10px auto;
+filter:drop-shadow(0 10px 13px #17203725)
+}
+
+.wheel-part{cursor:pointer;transition:.2s}
+
+.wheel-part:hover{
+filter:brightness(1.1);
+transform:scale(1.015);
+transform-origin:center
+}
+
+.wheel-info{
+min-height:92px;
+border:2px dashed var(--line);
+border-radius:17px;
+padding:15px;
+text-align:center;
+display:grid;
+place-items:center;
+font-size:1.12rem;
+font-weight:800
+}
+
+.legend{
+display:flex;
+justify-content:center;
+gap:10px;
+flex-wrap:wrap;
+margin-top:15px
+}
+
+.tag{
+border-radius:999px;
+padding:8px 12px;
+font-weight:800;
+background:#f0f1f7
+}
+
+.groups{
+display:grid;
+grid-template-columns:repeat(3,1fr);
+gap:13px
+}
+
+.group{
+border:2px solid var(--line);
+border-radius:20px;
+padding:17px;
+background:#fff
+}
+
+.swatches{
+display:flex;
+gap:5px;
+margin:12px 0
+}
+
+.swatch{
+height:30px;
+flex:1;
+border-radius:8px;
+border:1px solid #0002
+}
+
+.pair-list{display:grid;gap:10px}
+
+.pair{
+display:flex;
+align-items:center;
+justify-content:space-between;
+gap:12px;
+border:2px solid var(--line);
+border-radius:17px;
+padding:12px 15px;
+font-weight:850
+}
+
+.two-dots{display:flex;gap:7px}
+
+.dot{
+width:38px;
+height:38px;
+border-radius:50%;
+border:2px solid #fff;
+outline:1px solid #3334
+}
+
+.temperature{
+display:grid;
+grid-template-columns:1fr 1fr;
+border-radius:22px;
+overflow:hidden;
+border:2px solid var(--ink);
+margin-top:18px
+}
+
+.warm,.cool{padding:25px;min-height:230px}
+
+.warm{
+background:linear-gradient(135deg,#ffec90,#ff9c54,#ee4d56)
+}
+
+.cool{
+background:linear-gradient(135deg,#d9f7ff,#67c8dc,#4c62c7)
+}
+
+.temperature h3{
+font-size:1.6rem;
+margin-top:0
+}
+
+.history-grid{
+display:grid;
+grid-template-columns:1fr 1fr;
+gap:18px
+}
+
+.person{
+border:2px solid var(--line);
+border-radius:21px;
+padding:20px;
+background:white
+}
+
+.person-icon{
+width:110px;
+height:110px;
+border-radius:50%;
+display:grid;
+place-items:center;
+font-size:3.6rem;
+background:linear-gradient(135deg,#dce7ff,#fff0aa);
+border:3px solid var(--ink);
+margin:0 auto 15px
+}
+
+.year{
+display:inline-block;
+background:var(--ink);
+color:white;
+padding:6px 11px;
+border-radius:999px;
+font-weight:900
+}
+
+.comparison{
+display:grid;
+grid-template-columns:1fr 1fr;
+gap:12px;
+margin-top:15px
+}
+
+.compare{
+border-radius:17px;
+padding:16px;
+font-weight:750
+}
+
+.newton-box{background:#deebff}
+.itten-box{background:#fff0b8}
+
+.quiz-question{
+font-size:clamp(1.25rem,3vw,1.7rem);
+font-weight:900;
+text-align:center;
+margin:22px 0
+}
+
+.answers{
+display:grid;
+grid-template-columns:1fr 1fr;
+gap:10px
+}
+
+.answer{
+min-height:62px;
+border:2px solid var(--line);
+background:#fff;
+border-radius:15px;
+padding:12px;
+font-weight:850;
+font-size:1rem
+}
+
+.answer.correct{
+background:#dff7e7;
+border-color:#238a4b
+}
+
+.answer.wrong{
+background:#ffe1e1;
+border-color:#c63641
+}
+
+.feedback{
+text-align:center;
+min-height:38px;
+font-weight:900;
+font-size:1.12rem;
+margin-top:13px
+}
+
+.action{
+display:block;
+margin:13px auto 0;
+border:0;
+background:var(--ink);
+color:white;
+border-radius:14px;
+padding:13px 22px;
+font-weight:900;
+font-size:1rem
+}
+
+.score{
+text-align:center;
+font-weight:850;
+color:#606779;
+margin-top:10px
+}
+
+.challenge{
+border-radius:20px;
+padding:23px;
+background:linear-gradient(120deg,#fff1a6,#ffdce8,#dce9ff);
+font-size:clamp(1.25rem,3vw,1.7rem);
+font-weight:900;
+text-align:center;
+min-height:130px;
+display:grid;
+place-items:center
+}
+
+@media(max-width:750px){
+.grid2,.temperature,.history-grid,.comparison{
+grid-template-columns:1fr
+}
+
+.groups{grid-template-columns:1fr}
+.answers{grid-template-columns:1fr}
+}
+</style>
+</head>
+
+<body>
+<main>
+
+<header>
+<div class="eyebrow">
+Ε΄ & ΣΤ΄ ΔΗΜΟΤΙΚΟΥ • ΕΙΚΑΣΤΙΚΑ
+</div>
+
+<h1>Ο Κώδικας των Χρωμάτων</h1>
+
+<div class="subtitle">
+Παρατηρώ • Συνδυάζω • Ερμηνεύω • Δημιουργώ
+</div>
+</header>
+
+<nav class="tabs">
+<button class="tab active" data-page="wheelPage">
+🎯 Ο κύκλος
+</button>
+
+<button class="tab" data-page="groupsPage">
+🧩 Ομάδες
+</button>
+
+<button class="tab" data-page="temperaturePage">
+🌡️ Θερμά–ψυχρά
+</button>
+
+<button class="tab" data-page="historyPage">
+🔬 Νεύτων–Ίττεν
+</button>
+
+<button class="tab" data-page="quizPage">
+🏆 Κουίζ
+</button>
+</nav>
+
+<section id="wheelPage" class="page active">
+
+<div class="grid2">
+
+<div class="card">
+<h2>Ο 12μερής κύκλος του Ίττεν</h2>
+
+<p class="note">
+Ο κύκλος οργανώνει τα χρώματα σε 3 βασικά,
+3 δευτερογενή και 6 τριτογενή. Πάτησε επάνω
+σε ένα χρώμα για να μάθεις την ομάδα του.
+</p>
+
+<svg class="wheel" viewBox="0 0 400 400"
+aria-label="Δωδεκαμερής χρωματικός κύκλος του Ίττεν">
+
+<g transform="translate(200 200)">
+
+<path class="wheel-part"
+data-name="Κίτρινο"
+data-group="Βασικό χρώμα"
+data-hex="#f5d52d"
+d="M0 0 L0 -170 A170 170 0 0 1 85 -147.2 Z"
+fill="#f5d52d"/>
+
+<path class="wheel-part"
+data-name="Κιτρινοπορτοκαλί"
+data-group="Τριτογενές χρώμα"
+data-hex="#f5ad31"
+d="M0 0 L85 -147.2 A170 170 0 0 1 147.2 -85 Z"
+fill="#f5ad31"/>
+
+<path class="wheel-part"
+data-name="Πορτοκαλί"
+data-group="Δευτερογενές χρώμα"
+data-hex="#ef7f2d"
+d="M0 0 L147.2 -85 A170 170 0 0 1 170 0 Z"
+fill="#ef7f2d"/>
+
+<path class="wheel-part"
+data-name="Κοκκινοπορτοκαλί"
+data-group="Τριτογενές χρώμα"
+data-hex="#ec5539"
+d="M0 0 L170 0 A170 170 0 0 1 147.2 85 Z"
+fill="#ec5539"/>
+
+<path class="wheel-part"
+data-name="Κόκκινο"
+data-group="Βασικό χρώμα"
+data-hex="#df3945"
+d="M0 0 L147.2 85 A170 170 0 0 1 85 147.2 Z"
+fill="#df3945"/>
+
+<path class="wheel-part"
+data-name="Κοκκινοϊώδες"
+data-group="Τριτογενές χρώμα"
+data-hex="#b34078"
+d="M0 0 L85 147.2 A170 170 0 0 1 0 170 Z"
+fill="#b34078"/>
+
+<path class="wheel-part"
+data-name="Ιώδες / Μωβ"
+data-group="Δευτερογενές χρώμα"
+data-hex="#764da5"
+d="M0 0 L0 170 A170 170 0 0 1 -85 147.2 Z"
+fill="#764da5"/>
+
+<path class="wheel-part"
+data-name="Μπλεϊώδες"
+data-group="Τριτογενές χρώμα"
+data-hex="#5158aa"
+d="M0 0 L-85 147.2 A170 170 0 0 1 -147.2 85 Z"
+fill="#5158aa"/>
+
+<path class="wheel-part"
+data-name="Μπλε"
+data-group="Βασικό χρώμα"
+data-hex="#3775c5"
+d="M0 0 L-147.2 85 A170 170 0 0 1 -170 0 Z"
+fill="#3775c5"/>
+
+<path class="wheel-part"
+data-name="Κυανοπράσινο"
+data-group="Τριτογενές χρώμα"
+data-hex="#319d9b"
+d="M0 0 L-170 0 A170 170 0 0 1 -147.2 -85 Z"
+fill="#319d9b"/>
+
+<path class="wheel-part"
+data-name="Πράσινο"
+data-group="Δευτερογενές χρώμα"
+data-hex="#43a75b"
+d="M0 0 L-147.2 -85 A170 170 0 0 1 -85 -147.2 Z"
+fill="#43a75b"/>
+
+<path class="wheel-part"
+data-name="Κιτρινοπράσινο"
+data-group="Τριτογενές χρώμα"
+data-hex="#9abd3c"
+d="M0 0 L-85 -147.2 A170 170 0 0 1 0 -170 Z"
+fill="#9abd3c"/>
+
+<circle r="65" fill="#fffdf7"
+stroke="#172037" stroke-width="3"/>
+
+<text text-anchor="middle" y="-9"
+font-size="17" font-weight="900">
+ΚΥΚΛΟΣ
+</text>
+
+<text text-anchor="middle" y="14"
+font-size="17" font-weight="900">
+ΤΟΥ ΙΤΤΕΝ
+</text>
+
+</g>
+</svg>
+
+<div id="wheelInfo" class="wheel-info">
+Πάτησε ένα χρώμα για να μάθεις σε ποια ομάδα ανήκει.
+</div>
+
+</div>
+
+<div class="card">
+<h2>Πώς τον διαβάζουμε;</h2>
+
+<h3>Χρώματα δίπλα-δίπλα</h3>
+<p class="note">
+Ονομάζονται ανάλογα. Έχουν συγγένεια και δημιουργούν
+ήρεμους, αρμονικούς συνδυασμούς.
+</p>
+
+<h3>Χρώματα απέναντι</h3>
+<p class="note">
+Ονομάζονται συμπληρωματικά. Δημιουργούν ισχυρή
+αντίθεση και το ένα κάνει το άλλο να φαίνεται εντονότερο.
+</p>
+
+<h3>Χρώματα σε ίσες αποστάσεις</h3>
+<p class="note">
+Μπορούν να σχηματίσουν ισορροπημένες χρωματικές
+τριάδες, όπως τα τρία βασικά χρώματα.
+</p>
+
+<div class="legend">
+<span class="tag">🔴 3 βασικά</span>
+<span class="tag">🟠 3 δευτερογενή</span>
+<span class="tag">🟡 6 τριτογενή</span>
+</div>
+
+</div>
+</div>
+</section>
+
+<section id="groupsPage" class="page">
+
+<div class="card">
+<h2>Οι ομάδες των χρωμάτων</h2>
+
+<div class="groups">
+
+<article class="group">
+<h3>1. Βασικά</h3>
+
+<div class="swatches">
+<div class="swatch" style="background:#df3945"></div>
+<div class="swatch" style="background:#f5d52d"></div>
+<div class="swatch" style="background:#3775c5"></div>
+</div>
+
+<p class="note">
+Κόκκινο, κίτρινο και μπλε. Στο παραδοσιακό μοντέλο
+ζωγραφικής του Ίττεν δεν δημιουργούνται από άλλα χρώματα.
+</p>
+</article>
+
+<article class="group">
+<h3>2. Δευτερογενή</h3>
+
+<div class="swatches">
+<div class="swatch" style="background:#ef7f2d"></div>
+<div class="swatch" style="background:#43a75b"></div>
+<div class="swatch" style="background:#764da5"></div>
+</div>
+
+<p class="note">
+Πορτοκαλί, πράσινο και μωβ. Δημιουργούνται από
+την ανάμειξη δύο βασικών χρωμάτων.
+</p>
+</article>
+
+<article class="group">
+<h3>3. Τριτογενή</h3>
+
+<div class="swatches">
+<div class="swatch" style="background:#f5ad31"></div>
+<div class="swatch" style="background:#ec5539"></div>
+<div class="swatch" style="background:#5158aa"></div>
+</div>
+
+<p class="note">
+Δημιουργούνται αναμειγνύοντας ένα βασικό χρώμα
+με το γειτονικό του δευτερογενές.
+</p>
+</article>
+
+</div>
+</div>
+
+<div class="grid2">
+
+<div class="card">
+<h2>Συμπληρωματικά</h2>
+
+<p class="note">
+Βρίσκονται απέναντι στον χρωματικό κύκλο.
+</p>
+
+<div class="pair-list">
+
+<div class="pair">
+Κόκκινο – Πράσινο
+<div class="two-dots">
+<div class="dot" style="background:#df3945"></div>
+<div class="dot" style="background:#43a75b"></div>
+</div>
+</div>
+
+<div class="pair">
+Κίτρινο – Μωβ
+<div class="two-dots">
+<div class="dot" style="background:#f5d52d"></div>
+<div class="dot" style="background:#764da5"></div>
+</div>
+</div>
+
+<div class="pair">
+Μπλε – Πορτοκαλί
+<div class="two-dots">
+<div class="dot" style="background:#3775c5"></div>
+<div class="dot" style="background:#ef7f2d"></div>
+</div>
+</div>
+
+</div>
+</div>
+
+<div class="card">
+<h2>Ανάλογα χρώματα</h2>
+
+<p class="note">
+Βρίσκονται το ένα δίπλα στο άλλο στον κύκλο και
+δημιουργούν αρμονικές χρωματικές οικογένειες.
+</p>
+
+<div class="pair-list">
+<div class="pair">
+Κίτρινο – Κιτρινοπορτοκαλί – Πορτοκαλί
+</div>
+
+<div class="pair">
+Μπλε – Κυανοπράσινο – Πράσινο
+</div>
+
+<div class="pair">
+Κόκκινο – Κοκκινοϊώδες – Μωβ
+</div>
+</div>
+
+</div>
+</div>
+</section>
+
+<section id="temperaturePage" class="page">
+
+<div class="card">
+<h2>Θερμά και ψυχρά χρώματα</h2>
+
+<p class="note">
+Τα χρώματα δεν έχουν πραγματική θερμοκρασία.
+Δημιουργούν όμως διαφορετικές οπτικές και
+συναισθηματικές εντυπώσεις.
+</p>
+
+<div class="temperature">
+
+<div class="warm">
+<h3>🔥 Θερμά</h3>
+
+<p>
+Κόκκινο, πορτοκαλί, κίτρινο και οι αποχρώσεις τους.
+</p>
+
+<p>
+Θυμίζουν ήλιο, φωτιά, ζέστη και ενέργεια.
+Συχνά φαίνονται σαν να πλησιάζουν προς τον θεατή.
+</p>
+</div>
+
+<div class="cool">
+<h3>❄️ Ψυχρά</h3>
+
+<p>
+Μπλε, πράσινο, μωβ και οι αποχρώσεις τους.
+</p>
+
+<p>
+Θυμίζουν νερό, ουρανό, σκιά και ηρεμία.
+Συχνά φαίνονται σαν να απομακρύνονται.
+</p>
+</div>
+
+</div>
+</div>
+
+<div class="card">
+<h2>Πρόκληση παρατήρησης</h2>
+
+<div id="challenge" class="challenge">
+Πάτησε το κουμπί για μια χρωματική πρόκληση.
+</div>
+
+<button id="challengeButton" class="action">
+🎨 Νέα πρόκληση
+</button>
+</div>
+</section>
+
+<section id="historyPage" class="page">
+
+<div class="card">
+<h2>Από τον Νεύτωνα στον Ίττεν</h2>
+
+<p class="note">
+Ο χρωματικός κύκλος δεν δημιουργήθηκε ολοκληρωμένος
+από έναν μόνο άνθρωπο. Εξελίχθηκε μέσα από την επιστήμη,
+τη ζωγραφική και την εκπαίδευση.
+</p>
+
+<div class="history-grid">
+
+<article class="person">
+<div class="person-icon">🔬</div>
+
+<h3>Ισαάκ Νεύτων</h3>
+<span class="year">1704</span>
+
+<p class="note">
+Ο Άγγλος φυσικός μελέτησε το λευκό φως με ένα πρίσμα.
+Στο βιβλίο του <em>Opticks</em> τοποθέτησε επτά χρώματα
+του φωτός σε κυκλική διάταξη.
+</p>
+
+<p>
+<strong>Η βασική ιδέα του:</strong><br>
+Το λευκό φως περιέχει τα χρώματα του φάσματος.
+</p>
+</article>
+
+<article class="person">
+<div class="person-icon">🎨</div>
+
+<h3>Γιοχάνες Ίττεν</h3>
+<span class="year">1961</span>
+
+<p class="note">
+Ο Ελβετός ζωγράφος, θεωρητικός και καθηγητής του
+Bauhaus ανέπτυξε έναν 12μερή κύκλο για τη μελέτη
+των χρωμάτων από καλλιτέχνες και μαθητές.
+</p>
+
+<p>
+<strong>Η βασική ιδέα του:</strong><br>
+3 βασικά + 3 δευτερογενή + 6 τριτογενή χρώματα.
+</p>
+</article>
+
+</div>
+
+<div class="comparison">
+
+<div class="compare newton-box">
+<strong>Νεύτων → επιστήμη και φως</strong><br>
+Μελέτησε πώς το πρίσμα διαχωρίζει το λευκό φως
+στα χρώματα του φάσματος.
+</div>
+
+<div class="compare itten-box">
+<strong>Ίττεν → τέχνη και εκπαίδευση</strong><br>
+Οργάνωσε ένα εύχρηστο σύστημα για τις χρωματικές
+μείξεις, αρμονίες και αντιθέσεις.
+</div>
+
+</div>
+
+<p class="note">
+Το 1961 ο Ίττεν παρουσίασε τη θεωρία του στο βιβλίο
+<em>The Art of Color</em>. Ο κύκλος που εξερευνούμε
+σε αυτή την εφαρμογή βασίζεται στο 12μερές μοντέλο του.
