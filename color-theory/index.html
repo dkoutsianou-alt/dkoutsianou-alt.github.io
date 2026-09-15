@@ -778,3 +778,232 @@ Bauhaus ανέπτυξε έναν 12μερή κύκλο για τη μελέτη
 Το 1961 ο Ίττεν παρουσίασε τη θεωρία του στο βιβλίο
 <em>The Art of Color</em>. Ο κύκλος που εξερευνούμε
 σε αυτή την εφαρμογή βασίζεται στο 12μερές μοντέλο του.
+  
+</p>
+
+</div>
+</section>
+
+<section id="quizPage" class="page">
+
+<div class="card">
+<h2>Τελική δοκιμασία</h2>
+
+<div id="quizQuestion" class="quiz-question"></div>
+<div id="answers" class="answers"></div>
+<div id="feedback" class="feedback"></div>
+
+<button id="nextQuestion" class="action">
+Επόμενη ερώτηση →
+</button>
+
+<div id="score" class="score">Σκορ: 0/0</div>
+</div>
+
+</section>
+
+</main>
+
+<script>
+const tabs=document.querySelectorAll(".tab");
+const pages=document.querySelectorAll(".page");
+
+tabs.forEach(tab=>{
+tab.addEventListener("click",()=>{
+tabs.forEach(item=>item.classList.remove("active"));
+pages.forEach(page=>page.classList.remove("active"));
+
+tab.classList.add("active");
+
+document
+.getElementById(tab.dataset.page)
+.classList.add("active");
+});
+});
+
+document.querySelectorAll(".wheel-part").forEach(part=>{
+part.addEventListener("click",()=>{
+const info=document.getElementById("wheelInfo");
+
+info.innerHTML=
+"<div><strong>"+part.dataset.name+
+"</strong><br>"+part.dataset.group+"</div>";
+
+info.style.background=part.dataset.hex;
+});
+});
+
+const challenges=[
+"Δημιούργησε ένα τοπίο μόνο με ψυχρά χρώματα. Τι αίσθηση προκαλεί;",
+"Ζωγράφισε ένα αντικείμενο με θερμά χρώματα ώστε να φαίνεται ότι πλησιάζει.",
+"Βρες μέσα στην τάξη δύο θερμά και δύο ψυχρά χρώματα.",
+"Δημιούργησε μια εικόνα με το συμπληρωματικό ζευγάρι μπλε–πορτοκαλί.",
+"Χρησιμοποίησε ανάλογα χρώματα για να δημιουργήσεις μια ήρεμη σύνθεση.",
+"Χώρισε ένα χαρτί στα δύο: στη μία πλευρά θερμά και στην άλλη ψυχρά χρώματα."
+];
+
+document
+.getElementById("challengeButton")
+.addEventListener("click",()=>{
+
+const random=Math.floor(Math.random()*challenges.length);
+
+document.getElementById("challenge").textContent=
+challenges[random];
+});
+
+const questions=[
+{
+q:"Ποια είναι τα βασικά χρώματα στον κύκλο του Ίττεν;",
+a:"Κόκκινο, κίτρινο και μπλε",
+choices:[
+"Κόκκινο, κίτρινο και μπλε",
+"Πορτοκαλί, πράσινο και μωβ",
+"Κόκκινο, πράσινο και μπλε",
+"Κίτρινο, πράσινο και πορτοκαλί"
+]
+},
+{
+q:"Πόσα χρώματα περιλαμβάνει ο κύκλος του Ίττεν;",
+a:"12",
+choices:["6","7","10","12"]
+},
+{
+q:"Ποιο είναι το συμπληρωματικό του κόκκινου;",
+a:"Πράσινο",
+choices:["Μπλε","Πράσινο","Πορτοκαλί","Μωβ"]
+},
+{
+q:"Πού βρίσκονται τα συμπληρωματικά χρώματα;",
+a:"Απέναντι στον κύκλο",
+choices:[
+"Δίπλα στον κύκλο",
+"Απέναντι στον κύκλο",
+"Μόνο στο κέντρο",
+"Έξω από τον κύκλο"
+]
+},
+{
+q:"Ποια θεωρούνται θερμά χρώματα;",
+a:"Κόκκινο, πορτοκαλί και κίτρινο",
+choices:[
+"Μπλε, πράσινο και μωβ",
+"Κόκκινο, πορτοκαλί και κίτρινο",
+"Μαύρο, λευκό και γκρι",
+"Μπλε, κόκκινο και πράσινο"
+]
+},
+{
+q:"Ποια θεωρούνται ψυχρά χρώματα;",
+a:"Μπλε, πράσινο και μωβ",
+choices:[
+"Κόκκινο, κίτρινο και πορτοκαλί",
+"Μπλε, πράσινο και μωβ",
+"Κόκκινο, μαύρο και λευκό",
+"Κίτρινο, μωβ και πορτοκαλί"
+]
+},
+{
+q:"Ποιος δημιούργησε έναν πρώιμο κύκλο των χρωμάτων του φωτός;",
+a:"Ο Ισαάκ Νεύτων",
+choices:[
+"Ο Γιοχάνες Ίττεν",
+"Ο Ισαάκ Νεύτων",
+"Ο Πάμπλο Πικάσο",
+"Ο Βίνσεντ βαν Γκογκ"
+]
+},
+{
+q:"Ποιος ανέπτυξε τον γνωστό 12μερή κύκλο για την καλλιτεχνική εκπαίδευση;",
+a:"Ο Γιοχάνες Ίττεν",
+choices:[
+"Ο Ισαάκ Νεύτων",
+"Ο Γιοχάνες Ίττεν",
+"Ο Κλοντ Μονέ",
+"Ο Λεονάρντο ντα Βίντσι"
+]
+},
+{
+q:"Με ποια σχολή συνδέθηκε ο Γιοχάνες Ίττεν;",
+a:"Με το Bauhaus",
+choices:[
+"Με το Bauhaus",
+"Με την Ακαδημία της Αθήνας",
+"Με τον κυβισμό",
+"Με την Αναγέννηση"
+]
+},
+{
+q:"Πώς δημιουργείται ένα δευτερογενές χρώμα;",
+a:"Με ανάμειξη δύο βασικών",
+choices:[
+"Με ανάμειξη δύο βασικών",
+"Μόνο με λευκό",
+"Μόνο με μαύρο",
+"Δεν δημιουργείται με ανάμειξη"
+]
+}
+];
+
+let questionIndex=0;
+let correctAnswers=0;
+let totalAnswers=0;
+
+function showQuestion(){
+const item=questions[questionIndex];
+const question=document.getElementById("quizQuestion");
+const answers=document.getElementById("answers");
+const feedback=document.getElementById("feedback");
+
+question.textContent=item.q;
+answers.innerHTML="";
+feedback.textContent="";
+answers.dataset.locked="no";
+
+item.choices.forEach(choice=>{
+const button=document.createElement("button");
+
+button.className="answer";
+button.textContent=choice;
+
+button.addEventListener("click",()=>{
+if(answers.dataset.locked==="yes")return;
+
+answers.dataset.locked="yes";
+totalAnswers++;
+
+if(choice===item.a){
+correctAnswers++;
+button.classList.add("correct");
+feedback.textContent="✅ Σωστά!";
+}else{
+button.classList.add("wrong");
+
+[...answers.children]
+.find(element=>element.textContent===item.a)
+.classList.add("correct");
+
+feedback.textContent=
+"Η σωστή απάντηση είναι: "+item.a;
+}
+
+document.getElementById("score").textContent=
+"Σκορ: "+correctAnswers+"/"+totalAnswers;
+});
+
+answers.appendChild(button);
+});
+}
+
+document
+.getElementById("nextQuestion")
+.addEventListener("click",()=>{
+questionIndex=(questionIndex+1)%questions.length;
+showQuestion();
+});
+
+showQuestion();
+</script>
+
+</body>
+</html>
